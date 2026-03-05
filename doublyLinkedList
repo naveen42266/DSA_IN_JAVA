@@ -1,0 +1,164 @@
+class Node {
+    int data;
+    Node next, prev;
+
+    Node(int newData) {
+        data = newData;
+        next = prev = null;
+    }
+}
+
+class GfG {
+
+    static Node insertStart(Node head, int newData) {
+
+        Node newNode = new Node(newData);
+
+
+        if (head == null) {
+
+        } else {
+            newNode.next = head;
+        }
+
+        return newNode;
+    }
+
+    static Node insertEnd(Node head, int newData) {
+
+        Node newNode = new Node(newData);
+
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node curr = head;
+            while (curr.next != null) {
+                curr = curr.next;
+            }
+
+            curr.next = newNode;
+
+            newNode.prev = curr;
+        }
+
+        return head;
+    }
+
+    static Node insertByPosition(Node head, int position, int value) {
+        Node newNode = new Node(value);
+
+        if (position == 1) {
+
+            if (head != null) {
+                head.prev = newNode;
+            }
+
+            head = newNode;
+            return head;
+        }
+
+        Node curr = head;
+
+        for (int i = 1; i < position - 1 && curr != null; i++) {
+            curr = curr.next;
+        }
+
+        if (curr == null) {
+            return head;
+        }
+
+        newNode.prev = curr;
+        newNode.next = curr.next;
+        curr.next = newNode;
+
+        if (newNode.next != null) {
+            newNode.next.prev = newNode;
+        }
+
+
+        return head;
+    }
+    
+    static Node deleteStart(Node head){
+        if(head == null)
+          return head;
+        return head.next;
+    }
+    
+    static Node deleteEnd(Node head){
+        if(head == null)
+          return head;
+          
+        if(head.next == null)
+          return head;
+        
+        Node temp = head;
+        
+        while(temp.next.next != null)
+          temp = temp.next;
+         
+         temp.next =null;
+         
+         return head;
+        
+    }
+    
+    static Node deleteByPosition(Node head, int position){
+        
+        Node newNode = head;
+        
+        if(position == 1){
+            head = head.next;
+            return head;
+        }
+        
+        Node previous = null;
+        
+        for (int i=1;i < position ;i++ ){
+            previous = newNode;
+            newNode= newNode.next;
+        } 
+        
+        previous.next = newNode.next;
+        
+        return head;
+        
+    }
+
+    static void printList(Node head) {
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data);
+            if (curr.next != null) {
+                System.out.print(" <-> ");
+            }
+            curr = curr.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+
+
+        Node head = new Node(1);
+
+        head.next = new Node(3);
+        head.next.prev = head;
+
+        head.next.next = new Node(4);
+        head.next.next.prev = head.next;
+        
+        head.next.next.next = new Node(5);
+        head.next.next.next.prev = head.next;
+
+
+        head = insertStart(head, 0);
+        head = insertEnd(head, 6);
+        head = insertByPosition(head, 3, 2);
+        head = deleteStart(head);
+        head = deleteEnd(head);
+        head = deleteByPosition(head, 2);
+
+        printList(head);
+    }
+}
